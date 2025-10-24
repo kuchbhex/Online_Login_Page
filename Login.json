@@ -1,31 +1,16 @@
-dialog_enable": true,
-  "online_enable": true,
-
-  "title": "𝖜𝖊𝖑𝖈𝖔𝖒𝖊 𝖙𝖔 𝖙𝖍𝖊 𝖆𝖗𝖎𝖘𝖊 𝖑𝖚𝖆",
-  "descriptions": [
-    "𝐖𝖊𝖑𝖈𝖔𝖒𝖊 𝐓𝖔 𝕻𝖊𝖗𝖒𝖎𝖚𝖒 𝐀𝖈𝖈𝖊𝖘𝖘",
-    "𝕮𝖔𝖕𝐲 𝖆𝖓𝖉 𝕾𝖍𝖆𝖗𝖊 𝕯𝖊𝖛𝖎𝖈𝖊 𝖎𝖉 𝐰𝖎𝖙𝖍 𝖆𝖗𝖎𝖘𝖊",
-    "𝕿𝖓𝖙𝖊𝖗 𝐘𝖔𝖚𝖗 𝕻𝖆𝖘𝖘𝖜𝖔𝖗𝖉 𝐓𝖔 𝕮𝖔𝖓𝖙𝖎𝖓𝖚𝖊",
-    "𝐌𝖆𝖐𝖊 𝕾𝖚𝖗𝖊 𝐘𝖔𝖚𝖗 𝐌𝖚𝖘𝖙 𝖁𝖊 𝐑𝖊𝖌𝖎𝖘𝖙𝖗𝖊𝖉"
-  ],
-
-  "button_login": "𝕷𝖔𝖌𝖎𝖓",
-  "button_admin": "𝐀𝖉𝖒𝖎𝖓",
-  "button_copy": "𝕮𝖔𝖕𝐲 𝐈𝕯",
-  "admin_url": "https://t.me/kuchbhex",
-
-  "device_section": [
+[
     {
-      "device_id": "1234567890abcdef",
-      "password": "1122",
-      "expire_date": "2025-12-31"
+        "device_id": "device123",
+        "username": "user1",
+        "password": "pass123",
+        "expirydate": "31-12-2025",
+        "Allowoffline": true
     },
     {
-      "device_id": "c9aababeccb96d27",
-      "password": "rex",
-      "expire_date": "2025-10-25"
-      },
-    {
-      "device_id": "2e46621faed8f44d",
-      "password": "ARISE",
-      "expire_date": "2026-10-25"
+        "device_id": "device456",
+        "username": "user2",
+        "password": "pass456",
+        "expirydate": "15-06-2025",
+        "Allowoffline": false
+    }
+]
