@@ -1,16 +1,281 @@
-[
-    {
-        "device_id": "2e46621faed8f44d",
-        "username": "ARISE",
-        "password": "VIP",
-        "expirydate": "31-12-2025",
-        "Allowoffline": true
-    },
-    {
-        "device_id": "device456",
-        "username": "user2",
-        "password": "pass456",
-        "expirydate": "15-06-2025",
-        "Allowoffline": false
-    }
-]
+local info = gg.getTargetInfo()
+if info == nil then
+    gg.alert("Koi game select nahi hai! Pehle GameGuardian se game select karo.")
+    os.exit()
+end
+
+local Game  = info.label or "Unknown"
+local Ver   = info.versionName or "Unknown"
+local Pak   = info.packageName or "Unknown"
+local Bit   = info.x64 and "x64" or "x32"
+
+function hello()
+    gg.alert([[
+    ⧉⧉⧉⧉⧉⧉⧉⧉⧉⧉⧉⧉⧉⧉⧉⧉⧉
+                                        
+     ＧＡＭＥ   ＩＮＦＯ               
+─────────────────────        
+                                        
+▶ 🎮 𝐆𝐀𝐌𝐄 𝐍𝐀𝐌𝐄      :  ]]..Game..[[
+                                       
+                                       
+▶ 📦 𝐏𝐀𝐂𝐊𝐀𝐆𝐄  :  ]]..Pak..[[         
+       
+
+▶ 🧬 𝐕𝐄𝐑𝐒𝐈ϴ𝐍  :  ]]..Ver..[[
+
+
+▶ 💽 𝐀𝐑𝐂𝐇    :  ]]..Bit..[[
+
+
+⧉⧉⧉⧉⧉⧉⧉⧉⧉⧉⧉⧉⧉⧉⧉⧉⧉
+]],  "🔥 𝐃𝐀𝐑𝐊 𝐅𝐅 𝐖𝐎𝐑𝐋𝐃  ⚡")
+end
+
+hello()
+gg.toast("Tap on icon to open menu")
+
+--⬛⃢ Toggle States
+local toggle = {
+  headshot = false,
+  antenna = false,
+  glich   = false,
+  location= false,
+  sniper  = false,
+  camera  = false
+}
+
+-- 1‑time features ka visibility control
+local used = {
+  headshot = false,
+  antenna  = false,
+  glich    = false,
+  location = false,
+  sniper   = false
+  -- camera aur glich (speed) hamesha menu me rahenge
+}
+
+function DARK()
+    gg.setVisible(false)
+
+    local items = {}
+    local mapIndex = {}
+
+    local idx = 1
+
+    if not used.headshot then
+        items[idx] = (toggle.headshot and "  ⃢⬜" or "⬛⃢    ") .. " 𝐕𝐒𝐊 𝐀𝐈𝐌𝐁𝐎𝐓 ˡᵒᵍⁱⁿ🎯"
+        mapIndex[idx] = "headshot"
+        idx = idx + 1
+    end
+
+    if not used.antenna then
+        items[idx] = (toggle.antenna and "  ⃢⬜" or "⬛⃢    ") .. " 𝐕𝐒𝐊 𝐅𝐀𝐒𝐓 𝐒𝐖𝐈𝐓𝐂𝐇 ˡᵒᵍⁱⁿ🔫"
+        mapIndex[idx] = "antenna"
+        idx = idx + 1
+    end
+
+    -- GLITCH / SPEED: hamesha visible
+    items[idx] = (toggle.glich and "  ⃢⬜" or "⬛⃢    ") .. " 𝐒𝐏𝐄𝐄𝐃 𝐇𝐀𝐂𝐊 ᴵᴺ ᴳᴬᴹᴱ⚡"
+    mapIndex[idx] = "glich"
+    idx = idx + 1
+
+    if not used.location then
+        items[idx] = (toggle.location and "  ⃢⬜" or "⬛⃢    ") .. "𝐒𝐍𝐈𝐏𝐄𝐑 𝐀𝐈𝐌𝐁𝐎𝐓 ˡᵒᵍⁱⁿ🏹"
+        mapIndex[idx] = "location"
+        idx = idx + 1
+    end
+
+    if not used.sniper then
+        items[idx] = (toggle.sniper and "  ⃢⬜" or "⬛⃢    ") .. " 𝐒𝐍𝐈𝐏𝐄𝐑 𝐅𝐀𝐒𝐓 𝐒𝐖𝐈𝐓𝐂𝐇 ˡᵒᵍⁱⁿ🚀"
+        mapIndex[idx] = "sniper"
+        idx = idx + 1
+    end
+
+    -- CAMERA: hamesha visible
+    items[idx] = (toggle.camera and "  ⃢⬜" or "⬛⃢    ") .. " 𝐂𝐀𝐌𝐄𝐑𝐀 𝐇𝐀𝐂𝐊 ᴵᴺ ᴳᴬᴹᴱ📷"
+    mapIndex[idx] = "camera"
+    idx = idx + 1
+
+    items[idx] = "💢𝕿𝖝𝖎𝖙 𝕾𝖈𝖗𝖎𝖕𝖙"
+    local exitIndex = idx
+
+    local menu = gg.choice(
+        items,
+        nil,
+        "      ⧉⧉:👑 𝗗𝗔𝗥𝗞 𝗙𝗙 𝗚𝗛𝗢𝗦𝗧:⧉⧉"
+    )
+
+    if menu == nil then
+        gg.toast("⚠️ No option selected")
+        return
+    end
+
+    if menu == exitIndex then
+        gg.toast("𝐃ϴ𝐍'𝐓 𝐅ϴ𝐑𝐆𝐄𝐓 𝐘ϴ𝐔𝐑 𝐏𝐋𝐀𝐂𝐄 𝐅ϴϴ𝐋")
+        os.exit()
+    end
+
+    local key = mapIndex[menu]
+    if key == "headshot" then
+        headshot()
+        used.headshot = true  -- 1 bar use, fir hide
+    elseif key == "antenna" then
+        antenna()
+        used.antenna = true
+    elseif key == "glich" then
+        glich()
+        -- speed/glich hide nahi hoga
+    elseif key == "location" then
+        location()
+        used.location = true
+    elseif key == "sniper" then
+        sniper()
+        used.sniper = true
+    elseif key == "camera" then
+        camera()
+        -- camera bhi hamesha rahega
+    end
+end
+
+-- HEADSHOT
+function headshot()
+    toggle.headshot = not toggle.headshot
+    if toggle.headshot then
+        gg.setRanges(gg.REGION_ANONYMOUS)
+        gg.searchNumber("h 01 00 00 00 00 00 00 00 00 00 00 00 C5 00 00 00 00 00 00 00 00 00 00 00 01 00 00 00 01", gg.TYPE_BYTE)
+        local r = gg.getResults(1000)
+        if #r > 0 then
+            gg.editAll("h 01 00 00 00 00 00 00 00 00 00 00 00 C5 00 00 00 00 00 00 00 00 00 00 00 01 00 00 00 00", gg.TYPE_BYTE)
+        end
+        gg.clearResults()
+        gg.toast("💢 vsk ΛIMBӨƬ σи💢")
+    else
+        gg.toast("❌ vsk ΛIMBӨƬ σff")
+    end
+end
+
+-- ANTENNA / FAST SWITCHING
+function antenna()
+    toggle.antenna = not toggle.antenna
+    if toggle.antenna then
+        gg.setRanges(gg.REGION_ANONYMOUS)
+        gg.searchNumber("h3f 00 00 80 3e 00 00 00 00 04 00 00 00 00 00 80 3f 00 00 20 41 00 00 34 42 01 00 00 00 01 00 00 00 00 00 00 00 00 00 00 00 00 00 80 3f", gg.TYPE_BYTE)
+        local r = gg.getResults(9999)
+        if #r > 0 then
+            gg.editAll("h01 00 00 80 00 00 00 00 00 04 00 00 00 00 00 80 3f 00 00 20 41 00 00 34 42 01 00 00 00 01 00 00 00 00 00 00 00 00 00 00 00 00 00 80 3f", gg.TYPE_BYTE)
+        end
+        gg.clearResults()
+        gg.toast("💢vsk Sɯιƚƈԋιɳɠ σи💢")
+    else
+        gg.toast("❌ vsk Sɯιƚƈԋιɳɠ σff")
+    end
+end
+
+-- SPEED (GLICH) – ON/OFF theek se
+function glich()
+    toggle.glich = not toggle.glich
+    gg.setRanges(gg.REGION_ANONYMOUS)
+    if toggle.glich then
+        gg.searchNumber("h 00 01 00 00 00 02 2B 07 3D", gg.TYPE_BYTE)
+        local r = gg.getResults(10000)
+        if #r > 0 then
+            gg.editAll("h 00 01 00 00 00 02 2B 60 3D", gg.TYPE_BYTE)
+        end
+        gg.clearResults()
+        gg.toast("💢speed 𝕺𝖓💢")
+    else
+        gg.searchNumber("h 00 01 00 00 00 02 2B 60 3D", gg.TYPE_BYTE)
+        local r = gg.getResults(10000)
+        if #r > 0 then
+            gg.editAll("h 00 01 00 00 00 02 2B 07 3D", gg.TYPE_BYTE)
+        end
+        gg.clearResults()
+        gg.toast("💢speed 𝕺𝖋𝖋💢")
+    end
+end
+
+-- SNIPER FAST SWITCH (alag function)
+function sniper()
+    toggle.sniper = not toggle.sniper
+    if toggle.sniper then
+        gg.setRanges(gg.REGION_ANONYMOUS)
+        gg.searchNumber("h3F 00 00 80 3E 00 00 00 00 04 00 00 00 00 00 80 3F 00 00 20 41 00 00 34 42 01 00 00 00 01 00 00 00 00 00 00 00 00 00 00 00 00 00 80 3F", gg.TYPE_BYTE)
+        local r = gg.getResults(9999)
+        if #r > 0 then
+            gg.editAll("h3F 00 00 80 3E 00 00 B8 00 04 00 00 00 00 00 80 3F 00 00 20 41 00 00 34 42 01 00 00 00 01 00 00 00 00 00 00 00 00 00 00 00 00 00 80 3F", gg.TYPE_BYTE)
+        end
+        gg.clearResults()
+        gg.toast("SNIPER FAST SWITCH 𝕺𝖓💢")
+    else
+        gg.toast("💢SNIPER FAST SWITCH 𝕺𝖋𝖋💢")
+    end
+end
+
+-- CAMERA HACK (pehle ‘location’ 2nd def tha, rename karke fix kiya)
+function camera()
+    toggle.camera = not toggle.camera
+    gg.setRanges(gg.REGION_ANONYMOUS)
+    if toggle.camera then
+        gg.searchNumber("h00 00 00 00 00 00 80 3f 00 00 00 00 00 00 00 00 00 00 80 bf 00 00 00 00 00 00 80 bf 00 00 00 00 00 00 00 00 00 00 80 3f 00 00 00 00 00 00 00 00", gg.TYPE_BYTE)
+        local r = gg.getResults(9999)
+        if #r > 0 then
+            gg.editAll("h00 00 00 00 00 00 80 40 00 00 00 00 00 00 00 00 00 00 80 bf 00 00 00 00 00 00 80 bf 00 00 00 00 00 00 00 00 00 00 80 3f 00 00 00 00 00 00 80 bf", gg.TYPE_BYTE)
+            end
+        gg.clearResults()
+        gg.toast("camera hack  𝕺𝖓💢")
+    else
+        gg.searchNumber("h00 00 00 00 00 00 80 40 00 00 00 00 00 00 00 00 00 00 80 bf 00 00 00 00 00 00 80 bf 00 00 00 00 00 00 00 00 00 00 80 3f 00 00 00 00 00 00 80 bf", gg.TYPE_BYTE)
+        local r = gg.getResults(9999)
+        if #r > 0 then
+            gg.editAll("h00 00 00 00 00 00 80 3f 00 00 00 00 00 00 00 00 00 00 80 bf 00 00 00 00 00 00 80 bf 00 00 00 00 00 00 00 00 00 00 80 3f 00 00 00 00 00 00 00 00", gg.TYPE_BYTE)
+        end
+        gg.clearResults()
+        gg.toast("camera hack  off")
+    end
+end
+
+-- BASIC LOCATION (jo pehle pehla location() tha, agar chahiye to yaha add kar sakta hai)
+function location()
+    toggle.location = not toggle.location
+    if toggle.location then
+gg.setRanges(gg.REGION_ANONYMOUS)
+gg.searchNumber("h 01 00 00 00 00 00 00 00 00 00 00 00 41 00 00 00 00 00 00 00 00 00 00 00 01", gg.TYPE_BYTE)
+gg.getResults(2000)
+gg.editAll("h 01 00 00 00 00 00 00 00 00 00 00 00 41 00 00 00 00 00 00 00 00 00 00 00 00", gg.TYPE_BYTE)
+gg.toast("✅")
+gg.setRanges(gg.REGION_ANONYMOUS)
+gg.searchNumber("h 01 00 00 00 00 00 00 00 00 00 00 00 04 00 00 00 00 00 00 00 00 00 00 00 01", gg.TYPE_BYTE)
+gg.getResults(2000)
+gg.editAll("h 01 00 00 00 00 00 00 00 00 00 00 00 04 00 00 00 00 00 00 00 00 00 00 00 00", gg.TYPE_BYTE)
+
+gg.setRanges(gg.REGION_ANONYMOUS)
+gg.searchNumber("h 01 00 00 00 00 00 00 00 00 00 00 00 04 00 00 00 00 00 00 00 00 00 00 00 01", gg.TYPE_BYTE)
+gg.getResults(2000)
+gg.editAll("h 01 00 00 00 00 00 00 00 00 00 00 00 04 00 00 00 00 00 00 00 00 00 00 00 00", gg.TYPE_BYTE)
+gg.setRanges(gg.REGION_ANONYMOUS)
+gg.searchNumber("h 01 00 00 00 00 00 00 00 00 00 00 00 15 00 00 00 00 00 00 00 00 00 00 00 01", gg.TYPE_BYTE)
+gg.getResults(2000)
+gg.editAll("h 01 00 00 00 00 00 00 00 00 00 00 00 15 00 00 00 00 00 00 00 00 00 00 00 00", gg.TYPE_BYTE)
+gg.setRanges(gg.REGION_ANONYMOUS)
+
+gg.searchNumber("h 01 00 00 00 00 00 00 00 00 00 00 00 4B 00 00 00 00 00 00 00 00 00 00 00 01", gg.TYPE_BYTE)
+gg.getResults(2000)
+gg.editAll("h 01 00 00 00 00 00 00 00 00 00 00 00 4B 00 00 00 00 00 00 00 00 00 00 00 00", gg.TYPE_BYTE)
+
+gg.setRanges(gg.REGION_ANONYMOUS)      
+gg.searchNumber("h 01 00 00 00 00 00 00 00 00 00 00 00 2D 00 00 00 00 00 00 00 00 00 00 00 01", gg.TYPE_BYTE)
+gg.getResults(2000)
+gg.editAll("h 01 00 00 00 00 00 00 00 00 00 00 00 2D 00 00 00 00 00 00 00 00 00 00 00 00", gg.TYPE_BYTE)
+gg.clearResults()
+        gg.toast("SNIPER AIMBOT ON🎉")
+    end
+end
+
+while true do
+    if gg.isVisible(true) then
+        gg.setVisible(false)
+        DARK()
+    end
+    gg.sleep(100)
+end
